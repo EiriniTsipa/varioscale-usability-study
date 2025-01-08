@@ -40,62 +40,6 @@
             left: 50%;
         }
 
-        #bee {
-            position: absolute;
-            width: 130px;
-            height: 130px;
-            top: 50%;
-            right: 38%; 
-            transform: translateY(-50%);
-        }
-
-        @keyframes flyAway {
-            0% {
-                transform: translateY(-50%) rotate(0deg);
-            }
-            10% {
-                transform: translateY(-40%) rotate(15deg);
-                right: calc(38% - 10%);
-            }
-            20% {
-                transform: translateY(-60%) rotate(-15deg);
-                right: calc(38% - 20%);
-            }
-            30% {
-                transform: translateY(-50%) rotate(10deg);
-                right: calc(38% - 30%);
-            }
-            40% {
-                transform: translateY(-70%) rotate(-10deg);
-                right: calc(38%  - 40%);
-            }
-            50% {
-                transform: translateY(-40%) rotate(5deg);
-                right: calc(38%  - 50%);
-            }
-            60% {
-                transform: translateY(-60%) rotate(-5deg);
-                right: calc(38%  - 60%);
-            }
-            70% {
-                transform: translateY(-50%) rotate(10deg);
-                right: calc(38%  - 70%);
-            }
-            80% {
-                transform: translateY(-70%) rotate(-10deg);
-                right: calc(38%  - 80%);
-            }
-            90% {
-                transform: translateY(-50%) rotate(5deg);
-                right: calc(38%  - 90%);
-            }
-            100% {
-                transform: translateY(-100%) rotate(0deg);
-                right: calc(38%  - 110%);
-            }
-        }
-
-
 
     </style>
 </head>
@@ -106,24 +50,13 @@
     <h3 style="text-align: center;">Let’s get started!</h3>
 
     <div id="start-section">
-        <img id="bee" src="/assets/images/bee-cute.gif" alt="Growing Tree Animation">
         <button 
         class="start-button" 
         style="position: absolute; top: 52%; left: 50%; transform: translate(-50%, -50%);" 
-        onclick="startAnimation()">
+        onclick="window.location.href = 'task0.html';">
         Start
     </button>
     </div>
 
-    <script>
-        function startAnimation() {
-            const bee = document.getElementById('bee');
-            bee.style.animation = "flyAway 5s linear forwards";
-
-            setTimeout(() => {
-                window.location.href = 'task0.html';
-            }, 2200); 
-        }
-    </script>
 </body>
 </html>
