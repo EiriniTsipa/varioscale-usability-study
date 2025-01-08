@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Varioscale Usability Study</title>
+    <meta name="description"
+        content="A public usability study about Varioscale Maps, by a TU Delft Geomatics Master student.">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?">
+    <link rel="shortcut icon" type="image/png" href="favicon-32x32.png">
+    <link rel="manifest" href="site.webmanifest">
+    <style>
+        #next-button {
+            padding: 10px 20px 10px 20px;
+            background-color: darkslategray;
+            opacity: 0.8;
+            color: rgb(255, 255, 255);
+            font-size: 30px;
+            font-family: Helvetica, Arial, sans-serif;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: -4px 4px 8px rgba(0, 0, 0, 0.3);
+            outline: 1px solid slategray;
+            outline-offset: -2px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+
+        }
+
+        body {
+            background-color: mintcream;
+            justify-content: center;
+            max-width: 720px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 100%;
+            background: mintcream;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: cadetblue;
+            z-index: -1;
+        }
+
+        .content {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            /* mix-blend-mode: difference; */
+        }
+
+        .content p,
+        .content h2 {
+            transition: color 0.3s;
+        }
+
+        strong {
+            font-weight: bold;
+            color: purple;
+        }
+
+        body::before {
+            mix-blend-mode: color-burn;
+        }
+
+        #next-button:hover {
+            background-color: darkslategray;
+            transition: 0.2s !important;
+            outline: 1px solid slategray;
+            outline-offset: -2px;
+            opacity: 1.0;
+        }
+
+        h1 {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 34px;
+
+        }
+
+        h2 {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 24px;
+            color: darkslategray;
+            margin-bottom: 0 !important;
+            padding-bottom: 0 !important;
+        }
+
+        p {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 18px;
+            color: darkslategray;
+            text-align: justify;
+
+        }
+
+        .duration {
+            color: gray;
+            font-style: italic;
+        }
+
+        .underline {
+            text-decoration: underline;
+        }
+
+        #name {
+            font-family: Palatino, URW Palladio L, serif;
+            font-style: italic;
+            font-size: 20px;
+            text-align: right;
+            color: darkslategray;
+
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: visible;
+
+        }
+
+        .overlay-window {
+            background: rgb(202, 192, 202);
+            color: white;
+            padding: 10px 35px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(56, 33, 52, 0.8);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+    
+
+        .close-button {
+            background: purple;
+            color: white;
+            font-size: 17px;
+            font-family: 'Courier New', Courier, monospace;
+            border: none;
+            box-shadow: 0 4px 8px rgba(56, 27, 56, 0.5);
+            padding: 15px 25px;
+            margin-bottom: 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: transform 0.1s ease;
+           
+        }
+
+        .close-button:hover {
+            transform: scale(0.95);
+          
+        }
+        #overlay-text {
+            text-align: left;   
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 18px;
+            font-style: regular;
+            color: rgb(99, 71, 94);
+        }
+    </style>
+    <script>
+        // Id that is short, so easy to type, randomised from character set
+        let participant_id = Math.random().toString(36).substring(2, 8);
+
+        function urlWithId(url) {
+            return url + "?id=" + participant_id;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('closeButton').addEventListener('click', function () {
+                document.getElementById('overlay').style.visibility = 'hidden';
+
+            })
+        });
+
+    </script>
+</head>
+
+<body>
+    <div id="content" class="content">
+        <h1 style="color:purple">Hello World and Welcome to my Study! 🌍</h1>
+        <p class="duration absolute">Duration: ~10-15 min.</p>
+        <br>
+        <p>
+            Your participation is essential to the success of my Master’s Thesis at TU Delft, MSc. Geomatics. The
+            specific topic we’re exploring together is: "Usability of the vario-scale approach in interactive and
+            dynamic mapping".
+        </p>
+        <h2>Privacy 🛡️</h2>
+        <p>
+            Your answers are anonymous. We won’t store, use, or share any of your personal information.
+        </p>
+        <h2>About the Study 🗺️</h2>
+        <p>
+            This research is centered around varioscale maps, which adjust their level of detail dynamically as you zoom
+            in or out. The goal of my thesis is to examine how user-friendly these maps are.
+        </p>
+        <h2>Study Details 🖥️🖱️</h2>
+        <p>
+            For the best experience, please use a computer with a mouse to complete the tasks. Mobile phones and tablets
+            won’t give you the full functionality needed for the activities.
+            <br><br>
+            <strong>Important:</strong> Each participant will receive an anonymous autogenerated ID. Please <u>do
+                not</u> modify this ID; it is automatically completed and should not be changed.
+            <br><br>
+            Each task is timed ⏱️. The timer pauses when you click “Show Instructions” and continues when you are
+            actively working on the map.
+            <br><br>
+            Please focus on using only the maps provided in this study, and try to complete all the tasks in one go.
+            <br><br>
+            I hope you find the experience enjoyable! 😊
+            <br><br>
+            <br>
+        <div id="name">Eirini Tsipa</div>
+        </p>
+        <button id="next-button" onclick="window.location.href = urlWithId('intro.html');">Start</button>
+    </div>
+    <div style="font-size: 20px; font-style: italic; color:lightgrey; text-align: center">[1/9]</div>
+    <br>
+    <div id="overlay" class="overlay">
+        <div class="overlay-window">
+            <p id="overlay-text">Dear visitor,<br>The study is now <u>closed</u>, so it is no longer possible to submit responses. However, if you are interested it is still possible to view the study.<br>Press <em>Close</em> to proceed.</p>
+            <button id="closeButton" class="close-button">Close</button>
+        </div>
+    </div>
+</body>
+
+</html>

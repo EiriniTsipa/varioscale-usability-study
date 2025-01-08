@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Final Study</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/custom.css">
+  <script src="index.js"></script>
+  <script src="custom.js"></script>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+  <script>
+    function DOMContentLoaded() {
+      subscribeScale(mapview);
+      subscribeCoordinates(mapview);
+      subscribeChunks(mapview);
+      subscribeDownloads(mapview);
+
+      function randomItem(items) {
+        return items[Math.floor(Math.random() * items.length)];
+      }
+
+
+      let map_nm = '' // "left" or "right" if we want to compare two maps in the same brower tab
+      let canvas_nm = 'view'
+      let canvas = document.getElementById(canvas_nm);
+      let viewportSize = [canvas.clientWidth, canvas.clientHeight];
+      var map_settings = {
+        'zoom_factor': 1, // default 1, goes from 0.25 to 4
+        'pan_duration': 0.0, // 0 to 5.0
+        'zoom_duration': 0.2, // 0 to 5.0
+        'multiscale_denoms': undefined,
+        'initialization': {
+          scale_den: 50000,
+          center2d: [177000, 387000],
+          'navigationBar_title': '',
+        },
+        'canvas_nm': canvas_nm,
+        'datasets': [{
+          'tree_root_file_nm': 'tree_smooth.json',
+          'tree_root_href': 'data/',    // with trailing slash!
+          'tile_root_href': 'data/',
+          'texture_root_href': 'https://service.pdok.nl/hwh/luchtfotorgb/wms/v1_0'
+        }],
+
+      }
+
+      label_settings = {
+        'major_towns': {
+          'color': [0.0, 0.0, 0.0, 1.0],
+          'toponyms': village_labels,
+          'font_atlas': varioscale.din_font_atlas,
+          'font_msdf': varioscale.din_msdf,
+          'font_size': 20
+        },
+        'icons': {
+          'color': [0.2, 0.2, 0.2, 1.0],
+          'toponyms': icon_labels,
+          'font_atlas': varioscale.icon_font_atlas,
+          'font_msdf': varioscale.icon_font_msdf,
+          'font_size': 16
+        },
+        'n_roads': {
+          'color': [0.2, 0.2, 0.2, 1.0],
+          'toponyms': [],//quarter_labels,
+          'font_atlas': varioscale.din_font_atlas,
+          'font_msdf': varioscale.din_msdf,
+          'font_size': 15
+        },
+        'minor_towns': {
+          'color': [0.3, 0.3, 0.3, 1.0],
+          'toponyms': hamlet_labels,
+          'font_atlas': varioscale.din_condensed_font_atlas,
+          'font_msdf': varioscale.din_condensed_msdf,
+          'font_size': 16
+        },
+        'municipalities': {
+          'color': [0.0, 0.0, 0.0, 1.0],
+          'toponyms': town_labels,
+          'font_atlas': varioscale.din_font_atlas,
+          'font_msdf': varioscale.din_msdf,
+          'font_size': 25
+        },
+        'solutions': {
+          'color': [0.1, 0.6, 0.1, 1.0],
+          'toponyms': [
+            { "x": 182987.37, "y": 314503.29, "label": "Blankenberg", "inhabitants": 107192, "maxDenominator": 5000 },
+          ],
+          'font_atlas': varioscale.din_bold_font_atlas,
+          'font_msdf': varioscale.din_bold_msdf,
+          'font_size': 25
+        }
+      }
+
+      let multiscale_denoms = undefined;
+      function makeVarioscale() {
+        for (let renderer of mapview.renderers) {
+          renderer.multiscale_denoms = undefined
+        }
+        // Reset back to the initial scale
+        mapview.getTransform().initTransform(map_settings.initialization.center2d, viewportSize, map_settings.initialization.scale_den)
+        mapview.render()
+      }
+      
+      function makeMultiScale() {
+        for (let renderer of mapview.renderers) {
+          renderer.multiscale_denoms = [750, 1500, 3000, 6000, 12000, 24000, 48000, 96000, 192000, 384000, 768000, 1536000, 3072000, 6144000, 12288000]
+        }
+        // Reset back to the initial scale
+        mapview.getTransform().initTransform(map_settings.initialization.center2d, viewportSize, map_settings.initialization.scale_den)
+        mapview.render()
+      }
+
+      const toggleCheckbox = document.getElementById('toggle');
+    toggleCheckbox.addEventListener('change', () => {
+        if (toggleCheckbox.checked) {
+            console.log('Switched to Multiscale');
+            makeMultiScale();
+        } else {
+            console.log('Switched to Varioscale');
+            makeVarioscale();
+        }
+    });
+
+
+      label_settings.minor_towns.toponyms.forEach(function (item) {
+        item.label = "° " + item.label.toUpperCase();
+      });
+
+      label_settings.major_towns.toponyms.forEach(function (item) {
+        item.label = "• " + item.label;
+      });
+
+      label_settings.municipalities.toponyms.forEach(function (item) {
+        item.label = "• " + item.label;
+      });
+
+      // Make a new map instance
+      mapview = new varioscale.Map(map_settings, label_settings);
+
+      function resize() {
+        let el = document.getElementById("view")
+        console.log(`${el.clientWidth} ${el.clientHeight}`)
+        mapview.resize(el.clientWidth, el.clientHeight)
+      }
+
+      // do we need global access to the map?
+      // if you want to interact with the map in the console of the browser, yes
+      resize()
+
+      const resizeObserver = new ResizeObserver(resize);
+      resizeObserver.observe(document.getElementById(canvas_nm), { box: 'device-pixel-content-box' });
+
+      // tour = new Tour()
+
+
+
+      window.addEventListener('resize', resize, false);
+      window.addEventListener('orientationchange', resize);
+
+
+      let formIframe = document.getElementById('form-iframe');
+      formIframe.src = formIframe.src + getParticipantId();
+    }
+
+
+    window.addEventListener('DOMContentLoaded', DOMContentLoaded);
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+      document.getElementById('startButton').addEventListener('click', function () {
+        var mask = document.getElementById('mask');
+
+          mask.classList.add('fade-out');
+          mask.style.display = 'none';
+
+        let startButton = document.getElementById('startButton');
+        startButton.classList.add('hide-button');
+      });
+
+    });
+  </script>
+</head>
+
+<body class="is-marginless">
+
+  <div id="app" class="z0">
+
+    <div id="container" class="relative full-height">
+
+      <!-- map -->
+      <div id="outer2" class="absolute no-overflow full-width full-height z0">
+        <div id="mask" class="mask">
+            <div class="mask-content">
+                <h3 style="color: purple;"><strong>Task 0: Introduction to Varioscale and Multiscale Maps</strong></h3>
+                <div class="greyed-out">
+                <p><strong>🌿 Varioscale maps</strong> change smoothly as you zoom, showing <strong>continuous</strong> levels of detail.</p>
+                <p><strong>🌱 Multiscale maps</strong> change at predefined scales as you zoom, showing <strong>discrete</strong> levels of detail.</p>
+                </div>
+                <p>🗺️ Freely <strong>explore</strong> the map. <u>Zoom</u> and <u>pan</u> using the mouse. Click on the <em>switch button</em> to experience the differences between Varioscale and Multiscale.</p>
+                
+                <p style="color: grey;text-align: center!important;margin-left: 10px;">
+                    <em>🗣 Remember to think aloud.</em></p>
+
+                <button id="startButton"  class="start-button">
+                    <span class="progress-bar"></span>
+                    <span class="button-text">Loading map...</span>
+                  </button>
+          
+          </div>
+        </div>
+
+        <div id="resumeMask" class="mask" style="display: none;">
+          <button id="resumeButton" class="start-button static">Resume</button>
+        </div>
+
+        <div id="inner2" class="blue absolute no-overflow full-width full-height">
+
+          <canvas id="view" class="absolute no-overflow full-width full-height upper-left"></canvas>
+
+
+
+<div id="toggle-container" class="absolute">
+    <input type="checkbox" id="toggle" class="toggleCheckbox" />
+    <label for="toggle" class="toggleContainer">
+        <div>Varioscale</div>
+        <div>Multiscale</div>
+    </label>
+</div>
+       
+       
+<div id="top-right" class="top-right absolute text-black">
+    <button id="next-button" onclick="varioscale.downloadMapLogAsCSV(0); window.location.href = 'task1.html';" class="next-button">Next</button>
+    <div>
+        <span id="chunks-placeholder" class="is-hidden">ch</span>
+        <span id="downloads-placeholder" class="is-hidden">dl</span>
+    </div>
+</div>
+
+
+
+
+          <div id="bottom-left" class="bottom-left absolute text-black">
+            <img src="logo.svg" class="absolute" alt="TUDelft logo"
+              style="width: 100px; bottom: 0;">
+            <div id="scale-denominator-placeholder" class="bottom-left absolute" style="bottom: 0; left: 630px;"></div>
+            <div id="coordinates-placeholder" class="bottom-left absolute" style="bottom: 0; left: 830px;"></div>
+          </div>
+
+          <div id="bottom-right" class="bottom-right absolute">
+            <button class="is-hidden" style="pointer-events: auto;" id="zoomInButton"><b>+</b></button>
+            <button class="is-hidden" style="pointer-events: auto;" id="zoomOutButton"><b>&mdash;</b></button>
+          </div>
+
+          <div class="bottom-right absolute text-black">CRS: Amersfoort / RD New (EPSG: 28992)
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Basemap: TOP10NL </div>
+
+          
+        </div>
+      </div>
+          
+
+        </div>
+      </div>
+    </div>
+</body>
+
+</html>

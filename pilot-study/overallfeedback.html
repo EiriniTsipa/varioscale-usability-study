@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overall Feedback - Varioscale</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?">
+<link rel="shortcut icon" type="image/png" href="favicon-32x32.png">
+<link rel="manifest" href="site.webmanifest">
+    <style>
+        #next-button {
+            padding: 10px 20px 10px 20px;
+            background-color: darkslategray;
+            opacity: 0.8;
+            color: rgb(255, 255, 255);
+            font-size: 30px;
+            font-family: Helvetica, Arial, sans-serif;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: -4px 4px 8px rgba(0, 0, 0, 0.3);
+            outline: 1px solid slategray;
+            outline-offset: -2px;      
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+
+        }
+        
+        body {
+            background-color: mintcream;
+            justify-content: center;
+            max-width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            height: 100%;
+            background: mintcream;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: cadetblue;
+            z-index: -1;
+        }
+
+        .content {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+           
+
+
+
+             
+            
+            /* mix-blend-mode: difference; */
+        }
+
+        .content p, .content h2 {
+            transition: color 0.3s;
+        }
+
+        body::before {
+            mix-blend-mode: color-burn;
+        }
+
+        #next-button:hover {
+            background-color: darkslategray;
+            transition: 0.2s !important;
+            outline: 1px solid slategray;
+            outline-offset: -2px;
+            opacity: 1.0;
+        }
+
+        h2 {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 34px;
+            color: darkslategray;
+        }
+        p {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 18px;
+            color: darkslategray;
+            max-width: 600px;
+        }
+        
+        .not-centered {
+    display: inline-block;
+    text-align: left;
+    width: 100%;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+    </style>
+    <script>
+        function getParticipantId() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id');
+            }
+
+        function urlWithId(url) {
+                return url + "?id=" + getParticipantId();
+            }
+        function confirmCompleted(href) {
+            const userConfirmed = confirm("Please make sure to submit the Google Form before proceeding.\nIf you haven't, you may now click 'Cancel' and submit it.\nClick OK to proceed to the next task.");
+            if (userConfirmed) {
+                window.location.href = href;
+            }
+            }
+            document.addEventListener('DOMContentLoaded', function() {
+            let formIframe = document.getElementById('form-iframe');
+            formIframe.src = formIframe.src + getParticipantId();
+        });
+</script>
+</head>
+<body>
+    <div id="content" class="content">
+        <div class="centered-text">
+            <h2>Your Opinion</h2>
+            <p class="no-margin">As we wrap up, I’d like to hear about your experience. Your feedback is crucial in helping us enhance the usability of varioscale maps and</p>
+            <p class="no-margin"><span class="not-centered">make real improvements.</span></p>
+        </div>
+</div>
+    <iframe id='form-iframe'
+    src="https://docs.google.com/forms/d/e/1FAIpQLSc9faar4LhlV0Ou9a_ikANAzP69JMqLgPpqcbbbqDu4Kv1_JA/viewform?embedded=true&usp=pp_url&entry.1772285525="
+    width="640" height="617" frameborder="0" marginheight="0" marginwidth="0">Φόρτωση…</iframe>
+    <br>
+    <button id="next-button" onclick="confirmCompleted(urlWithId('endpage.html'));">Finish</button>
+    <div style="padding: 15px; font-size: 20px; font-style: italic; color:lightgrey; text-align: center; vertical-align: bottom;">[9/9]</div>
+
+    
+</div>
+</body>
+</html>

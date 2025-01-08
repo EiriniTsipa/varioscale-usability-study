@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intro Questions - Varioscale</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?">
+<link rel="shortcut icon" type="image/png" href="favicon-32x32.png">
+<link rel="manifest" href="site.webmanifest">
+    <style>
+        #next-button {
+            float: right;
+            padding: 10px 20px 10px 20px;
+            background-color: darkslategray;
+            opacity: 0.8;
+            color: rgb(255, 255, 255);
+            font-size: 20px;
+            font-family: Helvetica, Arial, sans-serif;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: -4px 4px 8px rgba(0, 0, 0, 0.3);
+            outline: 1px solid slategray;
+            outline-offset: -2px;   
+            left: 20px;
+        }
+
+
+        #next-button:hover {
+            background-color: darkslategray;
+            transition: 0.2s !important;
+            outline: 1px solid slategray;
+            outline-offset: -2px;
+            opacity: 1.0;
+            text-align: center;
+        }
+        h2 {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 34px;
+            color: darkslategray;
+        }
+    h3 {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 24px;
+            color: darkslategray;
+        }
+    h4 {
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 18px;
+        color: darkslategray;
+        font-weight: bold;
+        max-width: 640px;
+    }       
+    body {
+            background-color: mintcream;
+            justify-content: center;
+            max-width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+    }
+    p {
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 18px;
+        color: darkslategray;
+        max-width: 640px;
+    }
+
+    </style>
+    <script>
+            function getParticipantId() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('id');
+    }
+
+    function urlWithId(url) {
+            return url + "?id=" + getParticipantId();
+        }
+
+    function confirmCompleted(href) {
+      const userConfirmed = confirm("Please make sure to submit the Google Form before proceeding.\nIf you haven't, you may now click 'Cancel' and submit it.\nClick OK to proceed to the next task.");
+      if (userConfirmed) {
+        window.location.href = href;
+      }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+            let formIframe = document.getElementById('form-iframe');
+            formIframe.src = formIframe.src + getParticipantId();
+        });
+    </script>
+</head>
+<body>
+    <h2>Intro Questionnaire</h2>
+       
+        <p>For us to have a better overview of the participants in our study, we kindly request you to fill in the following questionnaire.</p>
+        
+        <iframe id='form-iframe'
+        src="https://docs.google.com/forms/d/e/1FAIpQLSfz6HUw5eoHX-8i9X4n_e221QRBb3R0UxGkxQyHY--3JG9Q1A/viewform?embedded=true&usp=pp_url&entry.1772285525="
+        width="640" height="617" frameborder="0" marginheight="0" marginwidth="0">Φόρτωση…</iframe>
+        <h4>When ready, please make sure you've submitted the Google form, then press Next to move on to Task 1.</h4>
+        <button id="next-button" onclick="confirmCompleted(urlWithId('task1.html'));">Next</button>
+        <div style="font-size: 20px; font-style: italic; color:lightgrey; text-align: center; vertical-align: bottom;">[2/9]</div>
+        <br>
+
+
+        
+</body>
+</html>
